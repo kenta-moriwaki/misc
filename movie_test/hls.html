@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>movie_test</title>
+    <style>
+        body {
+            background-color: #2c2c2c;
+        }
+
+        video {
+            height: 75%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateY(-50%) translateX(-50%);
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</head>
+<body>
+    <video id="movie" controls></video>
+    <!-- ffmpeg -i IMG_4735.MOV IMG_4735.mp4 -->
+    <!-- ffmpeg -i IMG_4735.mp4 -c:a copy -c:v copy -f hls -hls_time 2 -hls_playlist_type vod -hls_flags split_by_time -hls_segment_filename "hls_test%3d.ts" hls_test.m3u8 -->
+
+    <script>
+        if(Hls.isSupported()) {
+            var video = document.getElementById('movie');
+            var hls = new Hls();
+            hls.loadSource('./movie/hls/hls_test.m3u8');
+            hls.attachMedia(video);
+        }
+    </script>        
+</body>
+</html>
