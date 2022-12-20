@@ -1,7 +1,5 @@
-import { defineCustomElement, h } from "vue";
+import { defineCustomElement } from "vue";
 import SearchBar from "./SearchBar.vue";
-
-console.log(SearchBar.styles);
 
 const SearchBarElement = defineCustomElement(SearchBar);
 

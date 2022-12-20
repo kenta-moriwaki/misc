@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 
 import IconSupport from "./components/icons/IconSupport.vue";
 
@@ -11,6 +11,31 @@ const props = defineProps({
 });
 
 const queryText = ref(props.text);
+
+const stateA = ref(true);
+
+window.addEventListener("requestSearchState", (_) => {
+  const detail = {
+    queryText: queryText.value,
+    stateA: stateA.value,
+  };
+  const event = new CustomEvent("updateSearchState", { detail });
+  window.dispatchEvent(event);
+});
+
+window.addEventListener("setSearchState", (event) => {
+  queryText.value = (event as CustomEvent).detail.queryText;
+  stateA.value = (event as CustomEvent).detail.stateA;
+});
+
+watchEffect(() => {
+  const detail = {
+    queryText: queryText.value,
+    stateA: stateA.value,
+  };
+  const event = new CustomEvent("updateSearchState", { detail });
+  window.dispatchEvent(event);
+});
 </script>
 
 <template>
@@ -19,7 +44,8 @@ const queryText = ref(props.text);
       <button class="search-button">
         <IconSupport />
       </button>
-      <input class="search-input" type="search" :value="queryText" />
+      <input class="search-input" type="search" v-model="queryText" />
+      <input class="search-checkbox" type="checkbox" v-model="stateA" />
     </div>
   </div>
 </template>
