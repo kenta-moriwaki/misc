@@ -1,0 +1,7 @@
+https://json-generator.com/ 
+↓
+all.json
+↓
+cat all.json | jq -c '.[]' | gsplit -l 1 -d --additional-suffix=.json - data_
+↓
+for f (chunked/*) cat $f | jq . | sponge $f
